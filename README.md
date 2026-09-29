@@ -4,7 +4,7 @@
 
 ### AI-Powered Well Operations Platform for Heavy Oil Fields
 
-**Smart India Hackathon 2024 · Problem Statement by Oil India Limited**
+**Smart India Hackathon 2026 · Problem Statement by Oil India Limited**
 
 [![React](https://img.shields.io/badge/React-18.2-61DAFB?style=flat-square&logo=react&logoColor=white)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -429,7 +429,7 @@ This project is submitted for educational and evaluation purposes under the Smar
 
 <div align="center">
 
-**Built for Smart India Hackathon 2024**
+**Built with 💖 for Smart India Hackathon 2026**
 
 *Oil India Limited · Problem Statement · Baghewala Heavy Oil Field, Rajasthan*
 
