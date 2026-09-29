@@ -14,7 +14,9 @@ frontend/node_modules/
 frontend/dist/
 frontend/.vite/
 
-# Environment files (contain secrets)
+# Environment files
+# .env contains localhost dev values — not useful in the repo
+# .env.production contains the public backend URL — safe to commit
 backend/.env
 frontend/.env
 
