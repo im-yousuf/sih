@@ -6,29 +6,25 @@
       "framework": "vite",
       "buildCommand": "npm run build",
       "outputDirectory": "dist",
-      "installCommand": "npm install"
+      "installCommand": "npm install",
+      "bindings": [
+        {
+          "type": "service",
+          "service": "backend",
+          "format": "url",
+          "env": "VITE_API_URL"
+        }
+      ]
     },
     "backend": {
       "root": "backend",
       "framework": "fastapi",
-      "installCommand": "pip install -r requirements-demo.txt",
-      "bindings": [
-        {
-          "type": "service",
-          "service": "frontend",
-          "format": "url",
-          "env": "FRONTEND_URL"
-        }
-      ]
+      "installCommand": "pip install -r requirements-demo.txt"
     }
   },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": { "service": "backend" }
-    },
-    {
-      "source": "/ws/(.*)",
       "destination": { "service": "backend" }
     },
     {
