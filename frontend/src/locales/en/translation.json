@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "fieldName":        "BAGHEWALA FIELD",
+    "digitalTwin":      "DIGITAL TWIN",
+    "online":           "ONLINE",
+    "offline":          "OFFLINE",
+    "connected":        "CONNECTED",
+    "disconnected":     "DISCONNECTED",
+    "sensorNetwork":    "Sensor Network",
+    "dataMode":         "Data Mode",
+    "simulation":       "SIMULATION",
+    "engineer":         "Engineer",
+    "notifications":    "Notifications",
+    "markAllRead":      "Mark all read",
+    "noAlerts":         "No notifications",
+    "language":         "Language"
+  },
+  "sidebar": {
+    "overview":         "Overview",
+    "liveData":         "Live Data",
+    "reservoir":        "Reservoir",
+    "wellbore":         "Wellbore",
+    "aiInsights":       "AI Insights",
+    "simulation":       "Simulation",
+    "pumpControl":      "Pump Control",
+    "cssControl":       "CSS Control",
+    "optimization":     "Optimization",
+    "alerts":           "Alerts",
+    "history":          "History",
+    "reports":          "Reports",
+    "settings":         "Settings"
+  },
+  "dashboard":          "Dashboard",
+  "pumpjackStatus":     "Pumpjack Status",
+  "normalProduction":   "Normal Production",
+  "criticalAlert":      "Critical Alert",
+  "highViscosity":      "High Viscosity",
+  "simulate":           "Simulate",
+  "depthInspector":     "Depth Inspector",
+  "alerts": {
+    "title":            "ALERT CENTER",
+    "subtitle":         "Industrial alert management system",
+    "activeAlerts":     "ACTIVE ALERTS",
+    "critical":         "CRITICAL",
+    "high":             "HIGH",
+    "medium":           "MEDIUM",
+    "info":             "INFO",
+    "parameter":        "Parameter",
+    "value":            "Value",
+    "threshold":        "Threshold",
+    "prediction":       "Prediction",
+    "recommendedAction":"Recommended Action",
+    "filter":           "Filter",
+    "markAllRead":      "Mark all as read",
+    "noAlerts":         "No active alerts"
+  },
+  "scenarios": {
+    "title":            "DEMO SCENARIOS",
+    "normal":           "Normal Production",
+    "cooling":          "Reservoir Cooling",
+    "high_viscosity":   "High Viscosity",
+    "rod_float":        "Rod Float",
+    "impact_loading":   "Impact Loading",
+    "optimized":        "Optimized Operation",
+    "applying":         "Applying scenario..."
+  },
+  "severity": {
+    "critical":         "CRITICAL",
+    "warning":          "WARNING",
+    "info":             "INFO"
+  }
+}

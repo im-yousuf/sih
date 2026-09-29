@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "fieldName":        "బాఘేవాలా క్షేత్రం",
+    "digitalTwin":      "డిజిటల్ ట్విన్",
+    "online":           "ఆన్‌లైన్",
+    "offline":          "ఆఫ్‌లైన్",
+    "connected":        "అనుసంధానించబడింది",
+    "disconnected":     "డిస్‌కనెక్ట్",
+    "sensorNetwork":    "సెన్సర్ నెట్‌వర్క్",
+    "dataMode":         "డేటా మోడ్",
+    "simulation":       "అనుకరణ",
+    "engineer":         "ఇంజినీర్",
+    "notifications":    "నోటిఫికేషన్లు",
+    "markAllRead":      "అన్నీ చదివినట్లు గుర్తించు",
+    "noAlerts":         "నోటిఫికేషన్లు లేవు",
+    "language":         "భాష"
+  },
+  "sidebar": {
+    "overview":         "అవలోకనం",
+    "liveData":         "లైవ్ డేటా",
+    "reservoir":        "రిజర్వాయర్",
+    "wellbore":         "వెల్‌బోర్",
+    "aiInsights":       "AI అంతర్దృష్టులు",
+    "simulation":       "అనుకరణ",
+    "pumpControl":      "పంప్ నియంత్రణ",
+    "cssControl":       "CSS నియంత్రణ",
+    "optimization":     "అనుకూలీకరణ",
+    "alerts":           "హెచ్చరికలు",
+    "history":          "చరిత్ర",
+    "reports":          "నివేదికలు",
+    "settings":         "సెట్టింగ్‌లు"
+  },
+  "dashboard":          "డాష్‌బోర్డ్",
+  "pumpjackStatus":     "పంప్‌జాక్ స్థితి",
+  "normalProduction":   "సాధారణ ఉత్పత్తి",
+  "criticalAlert":      "క్రిటికల్ హెచ్చరిక",
+  "highViscosity":      "అధిక స్నిగ్ధత",
+  "simulate":           "అనుకరించు",
+  "depthInspector":     "లోత నిర్వాహకుడు",
+  "alerts": {
+    "title":            "హెచ్చరిక కేంద్రం",
+    "subtitle":         "పారిశ్రామిక హెచ్చరిక నిర్వహణ వ్యవస్థ",
+    "activeAlerts":     "క్రియాశీల హెచ్చరికలు",
+    "critical":         "క్రిటికల్",
+    "high":             "అధిక",
+    "medium":           "మధ్యమ",
+    "info":             "సమాచారం",
+    "parameter":        "పారామీటర్",
+    "value":            "విలువ",
+    "threshold":        "పరిమితి",
+    "prediction":       "అంచనా",
+    "recommendedAction":"సిఫార్సు చేసిన చర్య",
+    "filter":           "వడపోత",
+    "markAllRead":      "అన్నీ చదివినట్లు గుర్తించు",
+    "noAlerts":         "క్రియాశీల హెచ్చరికలు లేవు"
+  },
+  "scenarios": {
+    "title":            "డెమో దృశ్యాలు",
+    "normal":           "సాధారణ ఉత్పత్తి",
+    "cooling":          "రిజర్వాయర్ శీతలీకరణ",
+    "high_viscosity":   "అధిక స్నిగ్ధత",
+    "rod_float":        "రాడ్ ఫ్లోట్",
+    "impact_loading":   "ప్రభావ లోడింగ్",
+    "optimized":        "అనుకూలీకృత ఆపరేషన్",
+    "applying":         "దృశ్యం వర్తింపజేస్తున్నారు..."
+  },
+  "severity": {
+    "critical":         "క్రిటికల్",
+    "warning":          "హెచ్చరిక",
+    "info":             "సమాచారం"
+  }
+}

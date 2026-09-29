@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #faf8f5;
+    color: #1c1917;
+  }
+}
+
+@layer utilities {
+  /* ── Card / panel surface ─────────────────────────────────────────────── */
+  .glass-panel {
+    @apply bg-white border border-stone-200 shadow-sm;
+  }
+
+  /* ── Accent border highlight ─────────────────────────────────────────── */
+  .glow-border {
+    @apply border border-cyan/40 shadow-[0_2px_8px_rgba(139,90,43,0.15)];
+  }
+
+  /* ── Page heading accent ─────────────────────────────────────────────── */
+  .text-glow {
+    @apply text-stone-900;
+    text-shadow: none;
+  }
+
+  /* ── Subtle warm grid on page backgrounds ────────────────────────────── */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(139, 90, 43, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 90, 43, 0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* ── Thin warm scrollbar ────────────────────────────────────────────── */
+  .scrollbar-thin::-webkit-scrollbar { width: 5px; }
+  .scrollbar-thin::-webkit-scrollbar-track  { background: #f5f0eb; }
+  .scrollbar-thin::-webkit-scrollbar-thumb  { background: #d6c4b0; border-radius: 9999px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #b8956e; }
+
+  /* ── Fully hidden scrollbar (still scrollable) ─────────────────────── */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  /* ── Range input accent ─────────────────────────────────────────────── */
+  input[type='range'] {
+    accent-color: #8b5a2b;
+  }
+
+  /* ── Focus ring on inputs ───────────────────────────────────────────── */
+  input[type='number']:focus,
+  select:focus {
+    outline: none;
+    border-color: rgba(139, 90, 43, 0.5);
+    box-shadow: 0 0 0 3px rgba(139, 90, 43, 0.1);
+  }
+}

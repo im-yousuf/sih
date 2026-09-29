@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "fieldName":        "बाघेवाला खेत",
+    "digitalTwin":      "डिजिटल ट्विन",
+    "online":           "ऑनलाइन",
+    "offline":          "ऑफलाइन",
+    "connected":        "जुड़यो",
+    "disconnected":     "अलग व्हियो",
+    "sensorNetwork":    "सेन्सर नेटवर्क",
+    "dataMode":         "डेटा मोड",
+    "simulation":       "सिमुलेशन",
+    "engineer":         "इंजीनियर",
+    "notifications":    "सूचनावां",
+    "markAllRead":      "सगळा पढ़्या चिह्नित करो",
+    "noAlerts":         "कोई सूचना कोनी",
+    "language":         "भाषा"
+  },
+  "sidebar": {
+    "overview":         "झलकारी",
+    "liveData":         "लाइव डेटा",
+    "reservoir":        "जळस्रोत",
+    "wellbore":         "कुवा-नळी",
+    "aiInsights":       "AI अंतरदृष्टि",
+    "simulation":       "सिमुलेशन",
+    "pumpControl":      "पंप नियंत्रण",
+    "cssControl":       "CSS नियंत्रण",
+    "optimization":     "अनुकूलन",
+    "alerts":           "चेतावनी",
+    "history":          "इतिहास",
+    "reports":          "रिपोर्ट",
+    "settings":         "सेटिंग"
+  },
+  "dashboard":          "डेशबोर्ड",
+  "pumpjackStatus":     "पम्पजैक हालत",
+  "normalProduction":   "साधारण उत्पादन",
+  "criticalAlert":      "गंभीर चेतावनी",
+  "highViscosity":      "ऊंची लसदारी",
+  "simulate":           "सिमुलेट करो",
+  "depthInspector":     "गहराई जांचणहारो",
+  "alerts": {
+    "title":            "चेतावनी केन्द्र",
+    "subtitle":         "औद्योगिक चेतावनी प्रबंधन व्यवस्था",
+    "activeAlerts":     "सक्रिय चेतावनी",
+    "critical":         "गंभीर",
+    "high":             "ऊंचो",
+    "medium":           "मध्यम",
+    "info":             "जानकारी",
+    "parameter":        "प्राचल",
+    "value":            "मूल्य",
+    "threshold":        "सीमा",
+    "prediction":       "अनुमान",
+    "recommendedAction":"सुझावित कारवाई",
+    "filter":           "छानो",
+    "markAllRead":      "सगळा पढ़्या चिह्नित करो",
+    "noAlerts":         "कोई सक्रिय चेतावनी कोनी"
+  },
+  "scenarios": {
+    "title":            "डेमो स्थिति",
+    "normal":           "साधारण उत्पादन",
+    "cooling":          "जळस्रोत ठंडाई",
+    "high_viscosity":   "ऊंची लसदारी",
+    "rod_float":        "रॉड फ्लोट",
+    "impact_loading":   "प्रभाव भार",
+    "optimized":        "अनुकूलित संचालन",
+    "applying":         "स्थिति लागू व्हे री..."
+  },
+  "severity": {
+    "critical":         "गंभीर",
+    "warning":          "चेतावनी",
+    "info":             "जानकारी"
+  }
+}

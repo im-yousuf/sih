@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "fieldName":        "बाघेवाला क्षेत्र",
+    "digitalTwin":      "डिजिटल ट्विन",
+    "online":           "ऑनलाइन",
+    "offline":          "ऑफलाइन",
+    "connected":        "जुड़ा हुआ",
+    "disconnected":     "डिस्कनेक्ट",
+    "sensorNetwork":    "सेंसर नेटवर्क",
+    "dataMode":         "डेटा मोड",
+    "simulation":       "सिमुलेशन",
+    "engineer":         "इंजीनियर",
+    "notifications":    "सूचनाएं",
+    "markAllRead":      "सभी पढ़ें",
+    "noAlerts":         "कोई सूचना नहीं",
+    "language":         "भाषा"
+  },
+  "sidebar": {
+    "overview":         "अवलोकन",
+    "liveData":         "लाइव डेटा",
+    "reservoir":        "जलाशय",
+    "wellbore":         "वेलबोर",
+    "aiInsights":       "AI अंतर्दृष्टि",
+    "simulation":       "सिमुलेशन",
+    "pumpControl":      "पंप नियंत्रण",
+    "cssControl":       "CSS नियंत्रण",
+    "optimization":     "अनुकूलन",
+    "alerts":           "अलर्ट",
+    "history":          "इतिहास",
+    "reports":          "रिपोर्ट",
+    "settings":         "सेटिंग्स"
+  },
+  "dashboard":          "डैशबोर्ड",
+  "pumpjackStatus":     "पम्पजैक स्थिति",
+  "normalProduction":   "सामान्य उत्पादन",
+  "criticalAlert":      "गंभीर अलर्ट",
+  "highViscosity":      "उच्च श्यानता",
+  "simulate":           "सिमुलेट करें",
+  "depthInspector":     "गहराई निरीक्षक",
+  "alerts": {
+    "title":            "अलर्ट केंद्र",
+    "subtitle":         "औद्योगिक अलर्ट प्रबंधन प्रणाली",
+    "activeAlerts":     "सक्रिय अलर्ट",
+    "critical":         "गंभीर",
+    "high":             "उच्च",
+    "medium":           "मध्यम",
+    "info":             "जानकारी",
+    "parameter":        "पैरामीटर",
+    "value":            "मूल्य",
+    "threshold":        "सीमा",
+    "prediction":       "पूर्वानुमान",
+    "recommendedAction":"अनुशंसित कार्रवाई",
+    "filter":           "फ़िल्टर",
+    "markAllRead":      "सभी पढ़े गए चिह्नित करें",
+    "noAlerts":         "कोई सक्रिय अलर्ट नहीं"
+  },
+  "scenarios": {
+    "title":            "डेमो परिदृश्य",
+    "normal":           "सामान्य उत्पादन",
+    "cooling":          "जलाशय शीतलन",
+    "high_viscosity":   "उच्च श्यानता",
+    "rod_float":        "रॉड फ्लोट",
+    "impact_loading":   "प्रभाव भार",
+    "optimized":        "अनुकूलित संचालन",
+    "applying":         "परिदृश्य लागू हो रहा है..."
+  },
+  "severity": {
+    "critical":         "गंभीर",
+    "warning":          "चेतावनी",
+    "info":             "जानकारी"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "fieldName":        "বাঘেৱালা ক্ষেত্ৰ",
+    "digitalTwin":      "ডিজিটেল টুইন",
+    "online":           "অনলাইন",
+    "offline":          "অফলাইন",
+    "connected":        "সংযুক্ত",
+    "disconnected":     "সংযোগ বিচ্ছিন্ন",
+    "sensorNetwork":    "চেন্সৰ নেটৱৰ্ক",
+    "dataMode":         "ডেটা মোড",
+    "simulation":       "চিমুলেচন",
+    "engineer":         "অভিযন্তা",
+    "notifications":    "জাননী",
+    "markAllRead":      "সকলো পঢ়া চিহ্নিত কৰক",
+    "noAlerts":         "কোনো জাননী নাই",
+    "language":         "ভাষা"
+  },
+  "sidebar": {
+    "overview":         "সংক্ষিপ্ত বিৱৰণ",
+    "liveData":         "লাইভ ডেটা",
+    "reservoir":        "জলাধাৰ",
+    "wellbore":         "কূপনলী",
+    "aiInsights":       "AI অন্তৰ্দৃষ্টি",
+    "simulation":       "চিমুলেচন",
+    "pumpControl":      "পাম্প নিয়ন্ত্ৰণ",
+    "cssControl":       "CSS নিয়ন্ত্ৰণ",
+    "optimization":     "অনুকূলন",
+    "alerts":           "সতৰ্কতা",
+    "history":          "ইতিহাস",
+    "reports":          "প্ৰতিবেদন",
+    "settings":         "ছেটিংছ"
+  },
+  "dashboard":          "ড্যাশব'ৰ্ড",
+  "pumpjackStatus":     "পাম্পজেক স্থিতি",
+  "normalProduction":   "সাধাৰণ উৎপাদন",
+  "criticalAlert":      "জৰুৰী সতৰ্কতা",
+  "highViscosity":      "উচ্চ ঘনত্ব",
+  "simulate":           "চিমুলেট কৰক",
+  "depthInspector":     "গভীৰতা পৰীক্ষক",
+  "alerts": {
+    "title":            "সতৰ্কতা কেন্দ্ৰ",
+    "subtitle":         "ঔদ্যোগিক সতৰ্কতা ব্যৱস্থাপনা প্ৰণালী",
+    "activeAlerts":     "সক্ৰিয় সতৰ্কতা",
+    "critical":         "জৰুৰী",
+    "high":             "উচ্চ",
+    "medium":           "মধ্যম",
+    "info":             "তথ্য",
+    "parameter":        "প্ৰাচল",
+    "value":            "মান",
+    "threshold":        "সীমা",
+    "prediction":       "পূৰ্বানুমান",
+    "recommendedAction":"পৰামৰ্শকৃত পদক্ষেপ",
+    "filter":           "ফিল্টাৰ",
+    "markAllRead":      "সকলো পঢ়া হিচাপে চিহ্নিত কৰক",
+    "noAlerts":         "কোনো সক্ৰিয় সতৰ্কতা নাই"
+  },
+  "scenarios": {
+    "title":            "ডেমো পৰিস্থিতি",
+    "normal":           "সাধাৰণ উৎপাদন",
+    "cooling":          "জলাধাৰ শীতলন",
+    "high_viscosity":   "উচ্চ ঘনত্ব",
+    "rod_float":        "ৰড ফ্লোট",
+    "impact_loading":   "প্ৰভাৱ বোজা",
+    "optimized":        "অনুকূলিত পৰিচালনা",
+    "applying":         "পৰিস্থিতি প্ৰয়োগ হৈছে..."
+  },
+  "severity": {
+    "critical":         "জৰুৰী",
+    "warning":          "সতৰ্কতা",
+    "info":             "তথ্য"
+  }
+}
