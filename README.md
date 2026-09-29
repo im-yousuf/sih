@@ -423,7 +423,7 @@ This repository is a hackathon prototype. A path to production would require:
 
 ## License
 
-This project is submitted for educational and evaluation purposes under the Smart India Hackathon 2024. All rights reserved.
+This project is submitted for educational and evaluation purposes under the Smart India Hackathon 2026. All rights reserved.
 
 ---
 
