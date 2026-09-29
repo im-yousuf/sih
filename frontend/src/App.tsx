@@ -63,8 +63,17 @@ function WellApp() {
     setConnected, setLoading,
   } = useDigitalTwinStore();
 
+  // Derive WebSocket URL from VITE_WS_URL env var, or fall back to the
+  // current page's host with the correct ws/wss scheme.
+  // This makes it work both locally (ws://localhost:8000) and on Vercel
+  // Services (wss://your-project.vercel.app/ws/digital-twin — same domain).
   const wsUrlRef = useRef(
-    import.meta.env.VITE_WS_URL || 'ws://localhost:8000/ws/digital-twin',
+    import.meta.env.VITE_WS_URL ||
+    (() => {
+      if (typeof window === 'undefined') return 'ws://localhost:8000/ws/digital-twin';
+      const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      return `${proto}//${window.location.host}/ws/digital-twin`;
+    })(),
   );
 
   const loadSlowData = async () => {

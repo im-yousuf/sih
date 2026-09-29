@@ -13,7 +13,11 @@ import {
   SRPState, DynamometerState, AIInsights, Alert, ScenarioType,
 } from '../types';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+// When VITE_API_URL is empty (Vercel Services — same-domain routing),
+// fall back to the current origin so /api/* hits the right host.
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:8000');
 
 const api = axios.create({
   baseURL: API_BASE_URL,
