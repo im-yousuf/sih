@@ -19,51 +19,34 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import type { AuthUser } from '../store/authStore';
 import { Layers } from 'lucide-react';
+import { useUserManagementStore } from '../store/userManagementStore';
 
 /**
- * Hero image — the pumpjack-at-sunset photograph.
- *
- * The file lives in the public/ folder so it's served as a static asset
- * with no Vite bundling required (no import needed, just a URL string).
- *
- * HOW TO ACTIVATE:
- *   1. Create the folder:  frontend/public/
- *   2. Save the image as:  frontend/public/oilfield-sunset.jpg
- *   The browser will load it from /oilfield-sunset.jpg automatically.
- *
- * Until the file is present, the CSS gradient fallback renders instead.
+ * Hero image — place the pumpjack sunset photo at frontend/public/oilfield-sunset.jpg
+ * The warm gradient below is the CSS fallback while the file is absent.
  */
 const HERO_IMAGE = '/oilfield-sunset.jpg';
 
 // ---------------------------------------------------------------------------
-// Users (hackathon prototype)
+// Hardcoded supervisor (never managed via the UI).
+// All incharge accounts are managed dynamically via userManagementStore.
 // ---------------------------------------------------------------------------
-const USERS: Record<string, { password: string; user: AuthUser }> = {
-  'supervisor@oil.com': {
-    password: 'supervisor123',
-    user: {
-      email:          'supervisor@oil.com',
-      name:           'Field Supervisor',
-      role:           'supervisor',
-      assignedWellId: '',
-      token:          'mock-jwt-supervisor-token',
-    },
-  },
-  'incharge14@oil.com': {
-    password: 'incharge123',
-    user: {
-      email:          'incharge14@oil.com',
-      name:           'Well Incharge — BW-14',
-      role:           'incharge',
-      assignedWellId: 'well-14',
-      token:          'mock-jwt-incharge-token',
-    },
-  },
+const SUPERVISOR_RECORD = {
+  password: 'supervisor123',
+  user: {
+    email:          'supervisor@oil.com',
+    name:           'Field Supervisor',
+    role:           'supervisor',
+    assignedWellId: '',
+    token:          'mock-jwt-supervisor-token',
+  } as AuthUser,
 };
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const login    = useAuthStore((s) => s.login);
+  // Dynamic incharge accounts managed by the supervisor
+  const findByCredentials = useUserManagementStore((s) => s.findByCredentials);
 
   const [email,    setEmail]    = useState('');
   const [password, setPassword] = useState('');
@@ -75,18 +58,36 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     await new Promise((r) => setTimeout(r, 600));
-    const record = USERS[email.toLowerCase().trim()];
-    if (!record || record.password !== password) {
-      setError('Invalid email or password.');
+
+    const emailNorm = email.toLowerCase().trim();
+
+    // 1. Check hardcoded supervisor
+    if (
+      emailNorm === 'supervisor@oil.com' &&
+      password === SUPERVISOR_RECORD.password
+    ) {
+      login(SUPERVISOR_RECORD.user);
+      navigate('/supervisor', { replace: true });
       setLoading(false);
       return;
     }
-    login(record.user);
-    if (record.user.role === 'supervisor') {
-      navigate('/supervisor', { replace: true });
-    } else {
-      navigate(`/well/${record.user.assignedWellId}/overview`, { replace: true });
+
+    // 2. Check dynamic incharge accounts from userManagementStore
+    const managed = findByCredentials(emailNorm, password);
+    if (managed) {
+      login({
+        email:          managed.email,
+        name:           managed.name,
+        role:           'incharge',
+        assignedWellId: managed.assignedWellId,
+        token:          `mock-jwt-${managed.id}`,
+      });
+      navigate(`/well/${managed.assignedWellId}/overview`, { replace: true });
+      setLoading(false);
+      return;
     }
+
+    setError('Invalid email or password.');
     setLoading(false);
   };
 
@@ -272,27 +273,36 @@ export default function LoginPage() {
               <p className="text-[11px] text-muted text-center mb-3 tracking-wider font-semibold uppercase">
                 Demo Credentials
               </p>
-              {[
-                { label: 'Supervisor', email: 'supervisor@oil.com', pw: 'supervisor123' },
-                { label: 'Incharge',   email: 'incharge14@oil.com', pw: 'incharge123'   },
-              ].map(({ label, email: e, pw }) => (
-                <button
-                  key={e}
-                  type="button"
-                  onClick={() => { setEmail(e); setPassword(pw); setError(''); }}
-                  className="
-                    w-full flex items-center justify-between px-4 py-2.5
-                    bg-stone-50 hover:bg-[#8b5a2b]/5
-                    border border-stone-200 hover:border-[#8b5a2b]/30
-                    rounded-xl transition-colors group
-                  "
-                >
-                  <span className="text-xs font-bold text-[#8b5a2b]">{label}</span>
-                  <span className="text-xs text-muted group-hover:text-stone-700 font-mono transition-colors">
-                    {e}
-                  </span>
-                </button>
-              ))}
+              <button
+                type="button"
+                onClick={() => { setEmail('supervisor@oil.com'); setPassword('supervisor123'); setError(''); }}
+                className="
+                  w-full flex items-center justify-between px-4 py-2.5
+                  bg-stone-50 hover:bg-[#8b5a2b]/5
+                  border border-stone-200 hover:border-[#8b5a2b]/30
+                  rounded-xl transition-colors group
+                "
+              >
+                <span className="text-xs font-bold text-[#8b5a2b]">Supervisor</span>
+                <span className="text-xs text-muted group-hover:text-stone-700 font-mono transition-colors">
+                  supervisor@oil.com
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => { setEmail('incharge14@oil.com'); setPassword('incharge123'); setError(''); }}
+                className="
+                  w-full flex items-center justify-between px-4 py-2.5
+                  bg-stone-50 hover:bg-[#8b5a2b]/5
+                  border border-stone-200 hover:border-[#8b5a2b]/30
+                  rounded-xl transition-colors group
+                "
+              >
+                <span className="text-xs font-bold text-[#8b5a2b]">Incharge (BW-14)</span>
+                <span className="text-xs text-muted group-hover:text-stone-700 font-mono transition-colors">
+                  incharge14@oil.com
+                </span>
+              </button>
             </div>
           </div>
 

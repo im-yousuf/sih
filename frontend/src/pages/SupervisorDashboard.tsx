@@ -1,19 +1,21 @@
 /**
- * SupervisorDashboard — brown-and-white industrial fleet command center.
+ * SupervisorDashboard — fleet command center with tabbed navigation.
  *
- * NO dark mode classes anywhere. Every surface is bg-white or bg-[#faf8f5].
- * Brown (#8b5a2b) is used as the single accent color throughout.
+ * Tabs:
+ *   Fleet View       — live well cards + alert feed (existing)
+ *   User Management  — CRUD for Well Incharge accounts (new)
  */
 
-import { useState, useEffect } from 'react';
-import { useNavigate }         from 'react-router-dom';
-import { useAuthStore }        from '../store/authStore';
+import { useState, useEffect }  from 'react';
+import { useNavigate }          from 'react-router-dom';
+import { useAuthStore }         from '../store/authStore';
 import {
   Activity, Zap, AlertTriangle, ChevronRight,
-  LogOut, Gauge, Droplets, Thermometer, Layers,
+  LogOut, Gauge, Droplets, Thermometer, Layers, Users,
 } from 'lucide-react';
+import UserManagementPanel from '../components/UserManagementPanel';
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
 interface FleetWell {
   id:          string;
   name:        string;
@@ -43,27 +45,27 @@ const MOCK_WELLS: FleetWell[] = [
   { id:'well-17', name:'BW-17', status:'offline', production:0,   temperature:38, spm:0.0, energy:0.0,  alerts:1, lastUpdated:'8m ago'  },
 ];
 const MOCK_ALERTS: FleetAlert[] = [
-  { wellId:'well-14', wellName:'BW-14', severity:'CRITICAL', message:'Rod float probability 87% — reduce SPM immediately',            time:'1m ago'  },
-  { wellId:'well-14', wellName:'BW-14', severity:'HIGH',     message:'Reservoir cooling — temperature 41°C, viscosity rising',       time:'3m ago'  },
-  { wellId:'well-14', wellName:'BW-14', severity:'MEDIUM',   message:'Energy consumption 24% above target (62.3 kW)',                 time:'5m ago'  },
-  { wellId:'well-13', wellName:'BW-13', severity:'HIGH',     message:'Reservoir temperature below 50°C — schedule CSS cycle',        time:'7m ago'  },
-  { wellId:'well-16', wellName:'BW-16', severity:'HIGH',     message:'Surface vibration elevated — check rod guides',                 time:'12m ago' },
-  { wellId:'well-16', wellName:'BW-16', severity:'MEDIUM',   message:'Pump efficiency dropped to 71%',                                time:'18m ago' },
-  { wellId:'well-17', wellName:'BW-17', severity:'HIGH',     message:'Well offline — communication lost',                             time:'8m ago'  },
+  { wellId:'well-14', wellName:'BW-14', severity:'CRITICAL', message:'Rod float probability 87% — reduce SPM immediately',       time:'1m ago'  },
+  { wellId:'well-14', wellName:'BW-14', severity:'HIGH',     message:'Reservoir cooling — temperature 41°C, viscosity rising',   time:'3m ago'  },
+  { wellId:'well-14', wellName:'BW-14', severity:'MEDIUM',   message:'Energy consumption 24% above target (62.3 kW)',            time:'5m ago'  },
+  { wellId:'well-13', wellName:'BW-13', severity:'HIGH',     message:'Reservoir temperature below 50°C — schedule CSS cycle',   time:'7m ago'  },
+  { wellId:'well-16', wellName:'BW-16', severity:'HIGH',     message:'Surface vibration elevated — check rod guides',            time:'12m ago' },
+  { wellId:'well-16', wellName:'BW-16', severity:'MEDIUM',   message:'Pump efficiency dropped to 71%',                           time:'18m ago' },
+  { wellId:'well-17', wellName:'BW-17', severity:'HIGH',     message:'Well offline — communication lost',                        time:'8m ago'  },
 ];
 
 // ─── Visual config ────────────────────────────────────────────────────────────
 const STATUS_CFG = {
-  optimal: { label:'OPTIMAL', dotCls:'bg-green',          ringCls:'border-green/30',      bgCls:'bg-green/5',      textCls:'text-green'      },
-  warning: { label:'WARNING', dotCls:'bg-amber',           ringCls:'border-amber/30',      bgCls:'bg-amber/5',      textCls:'text-amber'      },
-  alert:   { label:'ALERT',   dotCls:'bg-red-500',         ringCls:'border-red-300',       bgCls:'bg-red-50',       textCls:'text-red-600'    },
-  offline: { label:'OFFLINE', dotCls:'bg-stone-400',       ringCls:'border-stone-300',     bgCls:'bg-stone-50',     textCls:'text-stone-500'  },
+  optimal: { label:'OPTIMAL', dotCls:'bg-green',    ringCls:'border-green/30',  bgCls:'bg-green/5',  textCls:'text-green'    },
+  warning: { label:'WARNING', dotCls:'bg-amber',    ringCls:'border-amber/30',  bgCls:'bg-amber/5',  textCls:'text-amber'    },
+  alert:   { label:'ALERT',   dotCls:'bg-red-500',  ringCls:'border-red-300',   bgCls:'bg-red-50',   textCls:'text-red-600'  },
+  offline: { label:'OFFLINE', dotCls:'bg-stone-400',ringCls:'border-stone-300', bgCls:'bg-stone-50', textCls:'text-stone-500'},
 } as const;
 
 const SEV_CFG = {
-  CRITICAL: { bgCls:'bg-red-50',    borderCls:'border-red-300',   textCls:'text-red-600'  },
-  HIGH:     { bgCls:'bg-amber/8',   borderCls:'border-amber/30',  textCls:'text-amber'    },
-  MEDIUM:   { bgCls:'bg-stone-50',  borderCls:'border-stone-200', textCls:'text-stone-600'},
+  CRITICAL: { bgCls:'bg-red-50',   borderCls:'border-red-300',   textCls:'text-red-600'   },
+  HIGH:     { bgCls:'bg-amber/8',  borderCls:'border-amber/30',  textCls:'text-amber'     },
+  MEDIUM:   { bgCls:'bg-stone-50', borderCls:'border-stone-200', textCls:'text-stone-600' },
 } as const;
 
 // ─── KPI card ─────────────────────────────────────────────────────────────────
@@ -106,7 +108,6 @@ function WellCard({ well, onClick }: { well: FleetWell; onClick: () => void }) {
         ${cfg.ringCls} ${cfg.bgCls}
       `}
     >
-      {/* Header row */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2.5">
           <span className={`w-2.5 h-2.5 rounded-full ${cfg.dotCls} ${well.status === 'optimal' ? 'animate-pulse' : ''}`} />
@@ -120,13 +121,12 @@ function WellCard({ well, onClick }: { well: FleetWell; onClick: () => void }) {
         </div>
       </div>
 
-      {/* Metrics */}
       <div className="grid grid-cols-2 gap-2">
         {[
-          { icon: Droplets,    label: 'Production', value: well.status === 'offline' ? '—' : `${well.production}`, unit: 'BOPD' },
-          { icon: Thermometer, label: 'Temp',       value: `${well.temperature}`,                                    unit: '°C'   },
-          { icon: Gauge,       label: 'SPM',        value: `${well.spm.toFixed(1)}`,                                 unit: 'spm'  },
-          { icon: Zap,         label: 'Energy',     value: well.status === 'offline' ? '—' : `${well.energy}`,       unit: 'kW'   },
+          { icon: Droplets,    label:'Production', value: well.status === 'offline' ? '—' : `${well.production}`, unit:'BOPD' },
+          { icon: Thermometer, label:'Temp',       value: `${well.temperature}`,                                   unit:'°C'  },
+          { icon: Gauge,       label:'SPM',        value: `${well.spm.toFixed(1)}`,                                unit:'spm' },
+          { icon: Zap,         label:'Energy',     value: well.status === 'offline' ? '—' : `${well.energy}`,      unit:'kW'  },
         ].map(({ icon: Icon, label, value, unit }) => (
           <div key={label} className="bg-stone-50 border border-stone-200 rounded-lg p-2.5">
             <div className="flex items-center gap-1.5 mb-1">
@@ -140,7 +140,6 @@ function WellCard({ well, onClick }: { well: FleetWell; onClick: () => void }) {
         ))}
       </div>
 
-      {/* Footer */}
       {well.alerts > 0 ? (
         <div className="mt-3 flex items-center gap-1.5">
           <AlertTriangle className="w-3 h-3 text-red-500" />
@@ -154,15 +153,24 @@ function WellCard({ well, onClick }: { well: FleetWell; onClick: () => void }) {
   );
 }
 
+// ─── Tab definition ───────────────────────────────────────────────────────────
+type Tab = 'fleet' | 'users';
+
+const TABS: { id: Tab; label: string; icon: React.ElementType }[] = [
+  { id: 'fleet', label: 'Fleet View',       icon: Activity },
+  { id: 'users', label: 'User Management',  icon: Users    },
+];
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function SupervisorDashboard() {
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
 
-  const [wells,  setWells]  = useState<FleetWell[]>(MOCK_WELLS);
-  const [alerts]            = useState<FleetAlert[]>(MOCK_ALERTS);
+  const [activeTab, setActiveTab] = useState<Tab>('fleet');
+  const [wells,     setWells]     = useState<FleetWell[]>(MOCK_WELLS);
+  const [alerts]                  = useState<FleetAlert[]>(MOCK_ALERTS);
 
-  // Simulate live fluctuations every 4 s
+  // Live fluctuations every 4 s
   useEffect(() => {
     const id = setInterval(() => {
       setWells((prev) => prev.map((w) => {
@@ -188,10 +196,9 @@ export default function SupervisorDashboard() {
   return (
     <div className="min-h-screen bg-[#faf8f5]">
 
-      {/* ── Top nav ─────────────────────────────────────────────────────── */}
+      {/* ── Top nav ───────────────────────────────────────────────────── */}
       <header className="bg-white border-b border-stone-200 shadow-sm sticky top-0 z-50">
         <div className="max-w-screen-2xl mx-auto px-6 h-14 flex items-center justify-between">
-          {/* Left brand */}
           <div className="flex items-center gap-3">
             <div
               className="w-7 h-7 rounded-lg flex items-center justify-center border"
@@ -206,7 +213,6 @@ export default function SupervisorDashboard() {
             <span className="text-stone-500 text-xs font-medium">SUPERVISOR DASHBOARD</span>
           </div>
 
-          {/* Right controls */}
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green animate-pulse" />
@@ -226,7 +232,7 @@ export default function SupervisorDashboard() {
         </div>
       </header>
 
-      {/* ── Main content ─────────────────────────────────────────────────── */}
+      {/* ── Main content ──────────────────────────────────────────────── */}
       <main className="max-w-screen-2xl mx-auto px-6 py-6 space-y-6">
 
         {/* Page title */}
@@ -237,79 +243,105 @@ export default function SupervisorDashboard() {
           </p>
         </div>
 
-        {/* KPI strip */}
+        {/* KPI strip — always visible */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <KpiCard icon={Droplets}      label="TOTAL FIELD PRODUCTION"   value={totalProduction.toFixed(0)} unit="BOPD"   sub={`${activeWells} producing wells`}                                       accent />
+          <KpiCard icon={Droplets}      label="TOTAL FIELD PRODUCTION"   value={totalProduction.toFixed(0)} unit="BOPD"   sub={`${activeWells} producing wells`}                                         accent />
           <KpiCard icon={Zap}           label="FIELD ENERGY CONSUMPTION" value={totalEnergy.toFixed(1)}     unit="kW"     sub={`${(totalEnergy / Math.max(totalProduction, 1) * 1000).toFixed(0)} Wh/bbl`} />
           <KpiCard icon={AlertTriangle} label="ACTIVE CRITICAL ALERTS"   value={criticalCount}               unit="alerts" sub={`${alerts.length} total across all wells`} />
         </div>
 
-        {/* Fleet grid + alert feed */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-
-          {/* Fleet — 2/3 width */}
-          <div className="xl:col-span-2 space-y-3">
-            <h2
-              className="text-xs font-extrabold tracking-widest uppercase"
-              style={{ color: '#8b5a2b' }}
-            >
-              Fleet View
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {wells.map((w) => (
-                <WellCard
-                  key={w.id}
-                  well={w}
-                  onClick={() => navigate(`/well/${w.id}/overview`)}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Alert feed — 1/3 width */}
-          <div className="space-y-3">
-            <h2
-              className="text-xs font-extrabold tracking-widest uppercase flex items-center gap-2"
-              style={{ color: '#8b5a2b' }}
-            >
-              Alert Feed
-              {criticalCount > 0 && (
-                <span className="text-[10px] bg-red-100 text-red-600 border border-red-200 rounded-full px-2 py-0.5 font-bold">
-                  {criticalCount} CRITICAL
-                </span>
-              )}
-            </h2>
-
-            <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1 scrollbar-thin">
-              {alerts.map((alert, i) => {
-                const cfg = SEV_CFG[alert.severity];
-                return (
-                  <button
-                    key={i}
-                    onClick={() => navigate(`/well/${alert.wellId}/overview`)}
-                    className={`
-                      w-full text-left rounded-xl p-3 border shadow-sm
-                      hover:shadow-md transition-shadow
-                      ${cfg.bgCls} ${cfg.borderCls}
-                    `}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className={`text-[10px] font-extrabold tracking-wider ${cfg.textCls}`}>
-                        {alert.severity}
-                      </span>
-                      <span className="text-[10px] text-stone-400">{alert.time}</span>
-                    </div>
-                    <p className="text-xs font-bold text-stone-900 mb-1">{alert.wellName}</p>
-                    <p className="text-xs text-stone-500 leading-snug">{alert.message}</p>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+        {/* ── Tab bar ─────────────────────────────────────────────────── */}
+        <div className="flex items-center gap-1 bg-white border border-stone-200 rounded-xl p-1 w-fit shadow-sm">
+          {TABS.map(({ id, label, icon: Icon }) => {
+            const active = activeTab === id;
+            return (
+              <button
+                key={id}
+                onClick={() => setActiveTab(id)}
+                className={`
+                  flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold
+                  transition-all duration-150
+                  ${active
+                    ? 'text-white shadow-sm'
+                    : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100'}
+                `}
+                style={active ? { backgroundColor: '#8b5a2b' } : {}}
+              >
+                <Icon className="w-4 h-4 flex-shrink-0" />
+                {label}
+              </button>
+            );
+          })}
         </div>
 
+        {/* ── Tab content ─────────────────────────────────────────────── */}
+
+        {/* Fleet View */}
+        {activeTab === 'fleet' && (
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+            {/* Well grid — 2/3 */}
+            <div className="xl:col-span-2 space-y-3">
+              <h2 className="text-xs font-extrabold tracking-widest uppercase" style={{ color: '#8b5a2b' }}>
+                Fleet View
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {wells.map((w) => (
+                  <WellCard
+                    key={w.id}
+                    well={w}
+                    onClick={() => navigate(`/well/${w.id}/overview`)}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Alert feed — 1/3 */}
+            <div className="space-y-3">
+              <h2 className="text-xs font-extrabold tracking-widest uppercase flex items-center gap-2" style={{ color: '#8b5a2b' }}>
+                Alert Feed
+                {criticalCount > 0 && (
+                  <span className="text-[10px] bg-red-100 text-red-600 border border-red-200 rounded-full px-2 py-0.5 font-bold">
+                    {criticalCount} CRITICAL
+                  </span>
+                )}
+              </h2>
+              <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1 scrollbar-thin">
+                {alerts.map((alert, i) => {
+                  const cfg = SEV_CFG[alert.severity];
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => navigate(`/well/${alert.wellId}/overview`)}
+                      className={`
+                        w-full text-left rounded-xl p-3 border shadow-sm
+                        hover:shadow-md transition-shadow
+                        ${cfg.bgCls} ${cfg.borderCls}
+                      `}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className={`text-[10px] font-extrabold tracking-wider ${cfg.textCls}`}>
+                          {alert.severity}
+                        </span>
+                        <span className="text-[10px] text-stone-400">{alert.time}</span>
+                      </div>
+                      <p className="text-xs font-bold text-stone-900 mb-1">{alert.wellName}</p>
+                      <p className="text-xs text-stone-500 leading-snug">{alert.message}</p>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* User Management */}
+        {activeTab === 'users' && <UserManagementPanel />}
+
         <p className="text-xs text-stone-400 text-center pb-4">
-          Data refreshes every 4 s · Click any well card to open its Digital Twin
+          {activeTab === 'fleet'
+            ? 'Data refreshes every 4 s · Click any well card to open its Digital Twin'
+            : 'Changes are saved instantly · New accounts can log in immediately'}
         </p>
       </main>
     </div>
